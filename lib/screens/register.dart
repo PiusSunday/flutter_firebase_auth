@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_auth/authentication/authentication_helper.dart';
+import 'package:flutter_firebase_auth/components/custom_show_dialog.dart';
+import 'package:flutter_firebase_auth/screens/home.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -10,15 +13,20 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  // ToDo 1: Create a TextEditingController for the email TextField
+  // Create a TextEditingController for the email TextField
+  TextEditingController emailController = TextEditingController();
 
-  // ToDo 2: Create a TextEditingController for the password TextField
+  // Create a TextEditingController for the password TextField
+  TextEditingController passwordController = TextEditingController();
 
-  // ToDo 3: Create a String variable for the email TextField
+  // Create a String variable for the email
+  String? email;
 
-  // ToDo 4: Create a String variable for the password TextField
+  // Create a String variable for the password
+  String? password;
 
-  // ToDo 5: Create an object of the AuthenticationHelper Class
+  // Create an object of the AuthenticationHelper Class
+  AuthenticationHelper authenticationHelper = AuthenticationHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +59,7 @@ class _RegisterState extends State<Register> {
             SizedBox(
               width: 300,
               child: TextField(
-                // ToDo 6: Add the email controller
+                controller: emailController,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.email),
@@ -59,7 +67,7 @@ class _RegisterState extends State<Register> {
                   labelText: 'Email',
                 ),
                 onChanged: (value) {
-                  // Todo 7: Handle the inputed text
+                  email = value;
                 },
               ),
             ),
@@ -72,7 +80,7 @@ class _RegisterState extends State<Register> {
             SizedBox(
               width: 300,
               child: TextField(
-                // ToDo 8: Add the password controller
+                controller: passwordController,
                 textAlign: TextAlign.center,
                 obscureText: true,
                 obscuringCharacter: '*',
@@ -82,7 +90,7 @@ class _RegisterState extends State<Register> {
                   labelText: 'Password',
                 ),
                 onChanged: (value) {
-                  // Todo 9: Handle the inputed text
+                  password = value;
                 },
               ),
             ),
@@ -97,7 +105,19 @@ class _RegisterState extends State<Register> {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  // ToDo 10: Call the register method
+                  authenticationHelper
+                      .registerUser(context, email!, password!)
+                      .then((value) {
+                    if (value == true) {
+                      Navigator.pushNamed(context, Home.routeName);
+                    } else {
+                      customShowDialog(
+                        context,
+                        'Register Message',
+                        value.toString(),
+                      );
+                    }
+                  });
                 },
                 child: const Text(
                   'Register',

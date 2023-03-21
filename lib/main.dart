@@ -1,7 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_auth/screens/home.dart';
+import 'package:flutter_firebase_auth/screens/login.dart';
+import 'package:flutter_firebase_auth/screens/register.dart';
+import 'package:flutter_firebase_auth/screens/welcome.dart';
 
-void main() {
-  // ToDo 1: Initialize Firebase
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const FlutterFirebaseAuth());
 }
 
@@ -10,13 +16,16 @@ class FlutterFirebaseAuth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'FlutterFirebase Auth',
-
-      // ToDo 2: Add the initial route
-
-      // ToDo 3: Add the routes
+      initialRoute: Welcome.routeName,
+      routes: {
+        Welcome.routeName: (context) => const Welcome(),
+        Register.routeName: (context) => const Register(),
+        Login.routeName: (context) => const Login(),
+        Home.routeName: (context) => const Home(),
+      },
     );
   }
 }

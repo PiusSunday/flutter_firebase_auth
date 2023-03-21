@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_auth/authentication/authentication_helper.dart';
+import 'package:flutter_firebase_auth/screens/welcome.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -7,8 +9,8 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-    // ToDo 1: Create an object of the AuthenticationHelper Class
+    // Create an object of the AuthenticationHelper Class
+    AuthenticationHelper authenticationHelper = AuthenticationHelper();
 
     return Scaffold(
       appBar: AppBar(),
@@ -39,18 +41,17 @@ class Home extends StatelessWidget {
             // You're logged in as ... Text
             RichText(
               textAlign: TextAlign.center,
-              text: const TextSpan(
+              text: TextSpan(
                 text: "You're logged in as ",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
                 children: [
                   TextSpan(
-                    text:
-                        " ", // ToDo 2: Add the current logged in user email here
-                    style: TextStyle(
+                    text: authenticationHelper.getCurrentUser(),
+                    style: const TextStyle(
                       fontSize: 20,
                       color: Colors.blue,
                       fontWeight: FontWeight.bold,
@@ -70,7 +71,8 @@ class Home extends StatelessWidget {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  // ToDo 3: Call the logoutUser method here
+                  authenticationHelper.logoutUser();
+                  Navigator.popAndPushNamed(context, Welcome.routeName);
                 },
                 child: const Text(
                   'Logout',

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_auth/screens/login.dart';
+import 'package:flutter_firebase_auth/screens/register.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({super.key});
@@ -34,7 +36,7 @@ class Welcome extends StatelessWidget {
                 height: 50,
               ),
               const Text(
-                'Welcome to FlutterFireBaseApp',
+                'Welcome to FlutterFireBaseAuth',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w400,
@@ -53,7 +55,7 @@ class Welcome extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  // ToDo 1: Navigate to Login Screen
+                  Navigator.pushNamed(context, Login.routeName);
                 },
                 child: Container(
                   height: 50,
@@ -79,7 +81,7 @@ class Welcome extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  // ToDo 2: Navigate to Register Screen
+                  Navigator.pushNamed(context, Register.routeName);
                 },
                 child: Container(
                   height: 50,

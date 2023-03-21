@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_auth/authentication/authentication_helper.dart';
+import 'package:flutter_firebase_auth/components/custom_show_dialog.dart';
+import 'package:flutter_firebase_auth/screens/home.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -10,15 +13,20 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  // ToDo 1: Create a TextEditingController for the email TextField
+  // Create a TextEditingController for the email TextField
+  TextEditingController emailController = TextEditingController();
 
-  // ToDo 2: Create a TextEditingController for the password TextField
+  // Create a TextEditingController for the password TextField
+  TextEditingController passwordController = TextEditingController();
 
-  // ToDo 3: Create a String variable for the email TextField
+  // Create a String variable for the email
+  String? email;
 
-  // ToDo 4: Create a String variable for the password TextField
+  // Create a String variable for the password
+  String? password;
 
-  // ToDo 5: Create an object of the AuthenticationHelper Class
+  // Create an object of the AuthenticationHelper Class
+  AuthenticationHelper authenticationHelper = AuthenticationHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +59,7 @@ class _LoginState extends State<Login> {
             SizedBox(
               width: 300,
               child: TextField(
-                // ToDo 6: Add the email controller
+                controller: emailController,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.email),
@@ -59,7 +67,7 @@ class _LoginState extends State<Login> {
                   labelText: 'Email',
                 ),
                 onChanged: (value) {
-                  
+                  email = value;
                 },
               ),
             ),
@@ -72,7 +80,7 @@ class _LoginState extends State<Login> {
             SizedBox(
               width: 300,
               child: TextField(
-                // ToDo 7: Add the password controller
+                controller: passwordController,
                 textAlign: TextAlign.center,
                 obscureText: true,
                 obscuringCharacter: '*',
@@ -82,7 +90,7 @@ class _LoginState extends State<Login> {
                   labelText: 'Password',
                 ),
                 onChanged: (value) {
-                  // ToDo 8: Handle the Inputed Value
+                  password = value;
                 },
               ),
             ),
@@ -97,7 +105,19 @@ class _LoginState extends State<Login> {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  // ToDo 9: Call the login method
+                  authenticationHelper
+                      .loginUser(context, email!, password!)
+                      .then((value) {
+                    if (value == true) {
+                      Navigator.pushNamed(context, Home.routeName);
+                    } else {
+                      customShowDialog(
+                        context,
+                        'Login Message',
+                        value.toString(),
+                      );
+                    }
+                  });
                 },
                 child: const Text(
                   'Login',
